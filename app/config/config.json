@@ -1,0 +1,40 @@
+{
+	"motor": "mysql",	
+    "usuario": "root",
+	"clave": "root",
+	"host": "localhost",
+	"db": "adalibrexa",
+	"ruta_nbf": "",
+	"token_nbf": "",
+	"email": "",
+	"password": "",
+	"mail_server": "smtp.gmail.com",
+	"secret_key": "e5ac358c-f0bf-11e5-9e39-d3b532c10a28",
+	"culqui_public_key": "",
+	"culqui_secret_key": "",
+	"puerto": 999,
+	"dias":{
+		"1": "Lunes",
+		"2": "Martes",
+		"3": "Miercoles",
+		"4": "Jueves",
+		"5": "Viernes",
+		"6": "Sabado",
+		"7": "Domingo"
+	},
+	"meses":{
+
+		"01": "Enero",
+		"02": "Febrero",
+		"03": "Marzo",
+		"04": "Abril",
+		"05": "Mayo",
+		"06": "Junio",
+		"07": "Julio",
+		"08": "Agosto",
+		"09": "Setiembre",
+		"10": "Octubre",
+		"11": "Noviembre",
+		"12": "Diciembre"
+	}
+}
