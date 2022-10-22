@@ -1,10 +1,15 @@
 from lib2to3.pytree import Base
 import MySQLdb
-from diccionario import tipo_dato
+from diccionario import *
 from configuracion import  acceso
 import os
 
-db=MySQLdb.connect(host=acceso['host'],user=acceso['usuario'],passwd=acceso['clave'],db=acceso['dbs'])
+db=MySQLdb.connect(
+    host=acceso['host'],
+    user=acceso['usuario'],
+    passwd=acceso['clave'],
+    db=acceso['db'], 
+    port=acceso['puerto'])
 
 class BaseDatos:
     def __init__(self):
@@ -34,7 +39,7 @@ class BaseDatos:
         
         for juego in self.c:
             tabla=juego[0]
-            if tabla not in ('viewdevoluciones','viewventas', 'cupon'):
+            if tabla not in tables_views_not_permitted:
                 print("creando tabla: {0}".format(tabla))
                 self.file.write(os.linesep + "class {0}(db.Entity):\n".format(tabla.capitalize()))
                 d = db.cursor()
@@ -83,18 +88,26 @@ class BaseDatos:
         self.gestor.write("from app.libs.jsonapi import JSONAPI\n")
         self.gestor.write("from pony.orm.serialization import to_dict\n")
         self.gestor.write("from datetime import datetime, date\n")
+        self.gestor.write("from app.migron.configuracion import acceso\n")
         self.gestor.write("import json\n" + os.linesep)
         self.gestor.write("class DBAdmin:\n")
         self.gestor.write("\tdef __init__(self):\n")
-        self.gestor.write("\t\tdb.bind(provider='mysql', user='calderon', password='@Ramoncito020286', host='158.69.1.214', database='adamakro2022')\n")
+        self.gestor.write("\t\tdb.bind(provider=acceso['motor'], user=acceso['usuario'], password=acceso['clave'], host=acceso['host'], database=acceso['db'], port=acceso['puerto'])\n")
         self.gestor.write("\t\tdb.generate_mapping(create_tables=True)" + os.linesep)
         # crear gestor de tablas
         for a in self.c:
-            if a[0] not in ('viewdevoluciones','viewventas'):
+            if a[0] not in tables_views_not_permitted:
                 self.gestor.write("\t@db_session\n")
                 self.gestor.write("\tdef get_{0}(self):\n".format(a[0].capitalize()))
                 self.gestor.write("\t\t{0} = {1}.select()\n".format(a[0], a[0].capitalize()))
                 self.gestor.write("\t\treturn {'data': JSONAPI.parse("+a[0].capitalize()+", [item.to_dict() for item in "+a[0]+"])}" + os.linesep)
+                self.gestor.write("\t@db_session\n")
+                self.gestor.write("\tdef get_{0}_one(self, _id):\n".format(a[0].capitalize()))
+                self.gestor.write("\t\t{0} = {1}[_id]\n".format(a[0], a[0].capitalize()))
+                self.gestor.write("\t\tif {0}:\n".format(a[0]))
+                self.gestor.write("\t\t\treturn {'data': " + a[0] + ".to_dict()}\n")
+                self.gestor.write("\t\treturn {'data': 'sin data que mostrar'}" + os.linesep)
+                
         self.gestor.write("db = DBAdmin()\n")
         self.gestor.close()
         
@@ -113,7 +126,7 @@ class BaseDatos:
         self.aplicacion.write("\treturn '<h1>Migracion Satisfactoria</h1>'" + os.linesep)
         # rutas
         for a in self.c:
-            if a[0] not in ('viewdevoluciones','viewventas'):
+            if a[0] not in tables_views_not_permitted:
                 self.aplicacion.write("api.add_resource(Ruta{0}, '/api/{1}')\n".format(a[0].capitalize(), a[0]))
         self.aplicacion.write(os.linesep)
         # fin
@@ -126,19 +139,19 @@ class BaseDatos:
         self.rutas.write("flask.helpers._endpoint_from_view_func = flask.scaffold._endpoint_from_view_func\n")
         self.rutas.write("from flask_restful import Resource\n")
         self.rutas.write("from flask import request\n")
+        self.rutas.write("from flask import jsonify\n")
         self.rutas.write("import time\n")
         self.rutas.write("import json\n")
         self.rutas.write("from app.basedatos import *\n")
-        self.rutas.write("from app.gestor import db\n")
-        self.rutas.write("from app.libs.jsonapi import JSONAPI" + os.linesep)
+        self.rutas.write("from app.gestor import db" + os.linesep)
         
         for a in self.c:
-            if a[0] not in ('viewdevoluciones','viewventas'):
+            if a[0] not in tables_views_not_permitted:
                 self.rutas.write("class Ruta{0}(Resource):\n".format(a[0].capitalize()))
                 self.rutas.write("\t@db_session\n")
                 self.rutas.write("\tdef get(self):\n")
-                self.rutas.write("\t\t{0} = {1}.select()\n".format(a[0], a[0].capitalize()))
-                self.rutas.write("\t\treturn {'data': JSONAPI.parse("+a[0].capitalize()+", [item.to_dict() for item in "+a[0]+"])}" + os.linesep)
+                self.rutas.write("\t\t{0} = db.get_{1}()\n".format(a[0], a[0].capitalize()))
+                self.rutas.write("\t\treturn jsonify(" + a[0] + ")" + os.linesep)
 
         self.rutas.close()
 
