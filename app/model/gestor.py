@@ -1,4 +1,4 @@
-from app.basedatos import *
+from app.model.basedatos import *
 from app.libs.jsonapi import JSONAPI
 from pony.orm.serialization import to_dict
 from datetime import datetime, date
@@ -330,6 +330,16 @@ class DBAdmin:
 			return {'data': condicion.to_dict()}
 		return {'data': 'sin data que mostrar'}
 	@db_session
+	def get_Conductor(self):
+		conductor = Conductor.select()
+		return {'data': JSONAPI.parse(Conductor, [item.to_dict() for item in conductor])}
+	@db_session
+	def get_Conductor_one(self, _id):
+		conductor = Conductor[_id]
+		if conductor:
+			return {'data': conductor.to_dict()}
+		return {'data': 'sin data que mostrar'}
+	@db_session
 	def get_Consolidadocab(self):
 		consolidadocab = Consolidadocab.select()
 		return {'data': JSONAPI.parse(Consolidadocab, [item.to_dict() for item in consolidadocab])}
@@ -400,6 +410,16 @@ class DBAdmin:
 			return {'data': documentos.to_dict()}
 		return {'data': 'sin data que mostrar'}
 	@db_session
+	def get_Empleados(self):
+		empleados = Empleados.select()
+		return {'data': JSONAPI.parse(Empleados, [item.to_dict() for item in empleados])}
+	@db_session
+	def get_Empleados_one(self, _id):
+		empleados = Empleados[_id]
+		if empleados:
+			return {'data': empleados.to_dict()}
+		return {'data': 'sin data que mostrar'}
+	@db_session
 	def get_Empresas(self):
 		empresas = Empresas.select()
 		return {'data': JSONAPI.parse(Empresas, [item.to_dict() for item in empresas])}
@@ -440,6 +460,26 @@ class DBAdmin:
 			return {'data': formapago.to_dict()}
 		return {'data': 'sin data que mostrar'}
 	@db_session
+	def get_Guiaremcab(self):
+		guiaremcab = Guiaremcab.select()
+		return {'data': JSONAPI.parse(Guiaremcab, [item.to_dict() for item in guiaremcab])}
+	@db_session
+	def get_Guiaremcab_one(self, _id):
+		guiaremcab = Guiaremcab[_id]
+		if guiaremcab:
+			return {'data': guiaremcab.to_dict()}
+		return {'data': 'sin data que mostrar'}
+	@db_session
+	def get_Guiaremdet(self):
+		guiaremdet = Guiaremdet.select()
+		return {'data': JSONAPI.parse(Guiaremdet, [item.to_dict() for item in guiaremdet])}
+	@db_session
+	def get_Guiaremdet_one(self, _id):
+		guiaremdet = Guiaremdet[_id]
+		if guiaremdet:
+			return {'data': guiaremdet.to_dict()}
+		return {'data': 'sin data que mostrar'}
+	@db_session
 	def get_Habitacion(self):
 		habitacion = Habitacion.select()
 		return {'data': JSONAPI.parse(Habitacion, [item.to_dict() for item in habitacion])}
@@ -478,6 +518,26 @@ class DBAdmin:
 		iniciodetalle = Iniciodetalle[_id]
 		if iniciodetalle:
 			return {'data': iniciodetalle.to_dict()}
+		return {'data': 'sin data que mostrar'}
+	@db_session
+	def get_Inventarioperiodo(self):
+		inventarioperiodo = Inventarioperiodo.select()
+		return {'data': JSONAPI.parse(Inventarioperiodo, [item.to_dict() for item in inventarioperiodo])}
+	@db_session
+	def get_Inventarioperiodo_one(self, _id):
+		inventarioperiodo = Inventarioperiodo[_id]
+		if inventarioperiodo:
+			return {'data': inventarioperiodo.to_dict()}
+		return {'data': 'sin data que mostrar'}
+	@db_session
+	def get_Inventarioresumenperiodo(self):
+		inventarioresumenperiodo = Inventarioresumenperiodo.select()
+		return {'data': JSONAPI.parse(Inventarioresumenperiodo, [item.to_dict() for item in inventarioresumenperiodo])}
+	@db_session
+	def get_Inventarioresumenperiodo_one(self, _id):
+		inventarioresumenperiodo = Inventarioresumenperiodo[_id]
+		if inventarioresumenperiodo:
+			return {'data': inventarioresumenperiodo.to_dict()}
 		return {'data': 'sin data que mostrar'}
 	@db_session
 	def get_Kardex(self):
@@ -598,6 +658,16 @@ class DBAdmin:
 		nbf_respuesta = Nbf_respuesta[_id]
 		if nbf_respuesta:
 			return {'data': nbf_respuesta.to_dict()}
+		return {'data': 'sin data que mostrar'}
+	@db_session
+	def get_Nbf_respuesta_guia(self):
+		nbf_respuesta_guia = Nbf_respuesta_guia.select()
+		return {'data': JSONAPI.parse(Nbf_respuesta_guia, [item.to_dict() for item in nbf_respuesta_guia])}
+	@db_session
+	def get_Nbf_respuesta_guia_one(self, _id):
+		nbf_respuesta_guia = Nbf_respuesta_guia[_id]
+		if nbf_respuesta_guia:
+			return {'data': nbf_respuesta_guia.to_dict()}
 		return {'data': 'sin data que mostrar'}
 	@db_session
 	def get_Opercom(self):
@@ -930,6 +1000,26 @@ class DBAdmin:
 			return {'data': tabla10.to_dict()}
 		return {'data': 'sin data que mostrar'}
 	@db_session
+	def get_Tabla12(self):
+		tabla12 = Tabla12.select()
+		return {'data': JSONAPI.parse(Tabla12, [item.to_dict() for item in tabla12])}
+	@db_session
+	def get_Tabla12_one(self, _id):
+		tabla12 = Tabla12[_id]
+		if tabla12:
+			return {'data': tabla12.to_dict()}
+		return {'data': 'sin data que mostrar'}
+	@db_session
+	def get_Tabla20(self):
+		tabla20 = Tabla20.select()
+		return {'data': JSONAPI.parse(Tabla20, [item.to_dict() for item in tabla20])}
+	@db_session
+	def get_Tabla20_one(self, _id):
+		tabla20 = Tabla20[_id]
+		if tabla20:
+			return {'data': tabla20.to_dict()}
+		return {'data': 'sin data que mostrar'}
+	@db_session
 	def get_Tags(self):
 		tags = Tags.select()
 		return {'data': JSONAPI.parse(Tags, [item.to_dict() for item in tags])}
@@ -1000,6 +1090,16 @@ class DBAdmin:
 			return {'data': tiporeserva.to_dict()}
 		return {'data': 'sin data que mostrar'}
 	@db_session
+	def get_Tipotransporte(self):
+		tipotransporte = Tipotransporte.select()
+		return {'data': JSONAPI.parse(Tipotransporte, [item.to_dict() for item in tipotransporte])}
+	@db_session
+	def get_Tipotransporte_one(self, _id):
+		tipotransporte = Tipotransporte[_id]
+		if tipotransporte:
+			return {'data': tipotransporte.to_dict()}
+		return {'data': 'sin data que mostrar'}
+	@db_session
 	def get_Tmpsaldos(self):
 		tmpsaldos = Tmpsaldos.select()
 		return {'data': JSONAPI.parse(Tmpsaldos, [item.to_dict() for item in tmpsaldos])}
@@ -1040,6 +1140,16 @@ class DBAdmin:
 			return {'data': transporte.to_dict()}
 		return {'data': 'sin data que mostrar'}
 	@db_session
+	def get_Transportista(self):
+		transportista = Transportista.select()
+		return {'data': JSONAPI.parse(Transportista, [item.to_dict() for item in transportista])}
+	@db_session
+	def get_Transportista_one(self, _id):
+		transportista = Transportista[_id]
+		if transportista:
+			return {'data': transportista.to_dict()}
+		return {'data': 'sin data que mostrar'}
+	@db_session
 	def get_Turnos(self):
 		turnos = Turnos.select()
 		return {'data': JSONAPI.parse(Turnos, [item.to_dict() for item in turnos])}
@@ -1078,6 +1188,16 @@ class DBAdmin:
 		usuarios = Usuarios[_id]
 		if usuarios:
 			return {'data': usuarios.to_dict()}
+		return {'data': 'sin data que mostrar'}
+	@db_session
+	def get_Vehiculo(self):
+		vehiculo = Vehiculo.select()
+		return {'data': JSONAPI.parse(Vehiculo, [item.to_dict() for item in vehiculo])}
+	@db_session
+	def get_Vehiculo_one(self, _id):
+		vehiculo = Vehiculo[_id]
+		if vehiculo:
+			return {'data': vehiculo.to_dict()}
 		return {'data': 'sin data que mostrar'}
 	@db_session
 	def get_Vendedor(self):

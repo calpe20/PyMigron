@@ -1,9 +1,9 @@
 {
 	"motor": "mysql",	
     "usuario": "calderon",
-	"clave": "root",
+	"clave": "Ramoncito020286",
 	"host": "localhost",
-	"db": "mysql_contenedor",
+	"db": "adalibrexa",
 	"ruta_nbf": "",
 	"token_nbf": "",
 	"email": "",
@@ -12,7 +12,7 @@
 	"secret_key": "e5ac358c-f0bf-11e5-9e39-d3b532c10a28",
 	"culqui_public_key": "",
 	"culqui_secret_key": "",
-	"puerto": 9999,
+	"puerto": 3306,
 	"dias":{
 		"1": "Lunes",
 		"2": "Martes",
@@ -23,7 +23,6 @@
 		"7": "Domingo"
 	},
 	"meses":{
-
 		"01": "Enero",
 		"02": "Febrero",
 		"03": "Marzo",

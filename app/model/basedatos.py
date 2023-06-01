@@ -12,6 +12,7 @@ class Accesos(db.Entity):
 	page = Required(int)
 	nombreboton = Required(str, 20 )
 	estado = Optional(int)
+	campoadiciona = Required(str, 255 )
 
 class Acompanante(db.Entity):
 	id = PrimaryKey(int, auto=True)
@@ -58,12 +59,14 @@ class Agencias(db.Entity):
 	impresoras = Optional(int)
 	usa_referencia = Optional(int)
 	usa_marca = Optional(int)
-	usa_compatibilidad = Optional(int)
-	usa_terapeutico = Optional(int)
+	usa_comptatibilidad = Optional(int)
 	usa_nom_comercial = Optional(int)
+	usa_terapeutico = Optional(int)
 	usa_produccion = Optional(int)
 	multicajero = Optional(int)
 	estado = Optional(str, 1 )
+	usa_compatibilidad = Optional(int)
+	cajaciega = Optional(int)
 
 class Almacen(db.Entity):
 	id_empresa = Optional(str, 6 )
@@ -327,6 +330,7 @@ class Cajeromv(db.Entity):
 	estado = Required(str, 255 )
 	fechahora = Required(datetime)
 	fecha = Required(date)
+	idformapago = Optional(int)
 
 class Canal(db.Entity):
 	id_empresa = Required(str, 6 )
@@ -404,6 +408,7 @@ class Cliempre(db.Entity):
 	punto_aumulado = Optional(int)
 	punto_usado = Optional(int)
 	punto_saldo = Optional(int)
+	ubigeo = Optional(str, 6 )
 
 class Colores(db.Entity):
 	id_empresa = Optional(str, 6 )
@@ -446,7 +451,7 @@ class Compatibles(db.Entity):
 	id_empresa = Optional(str, 6 )
 	agencia = Optional(str, 3 )
 	cod_articulo = Optional(str, 25 )
-	cod_compatble = Optional(str, 25 )
+	cod_compatible = Optional(str, 25 )
 	descripcion = Required(str, 150 )
 	usuario_mod = Required(str, 10 )
 	usuario_add = Required(str, 10 )
@@ -542,6 +547,12 @@ class Condicion(db.Entity):
 	credito = Required(int)
 	estado = Required(int)
 
+class Conductor(db.Entity):
+	idconductor = PrimaryKey(int, auto=True)
+	idtipodoc = Optional(str, 1 )
+	numerodoc = Optional(str, 20 )
+	nombrerazon = Optional(str, 200 )
+
 class Consolidadocab(db.Entity):
 	id = PrimaryKey(int, auto=True)
 	consolidaid = Optional(str, 20 )
@@ -564,7 +575,7 @@ class Correlativos(db.Entity):
 	id_empresa = Required(str, 6 )
 	agencia = Optional(str, 3 )
 	tabla = Required(str, 50 )
-	correltativo = Required(str, 13 )
+	correlativo = Required(str, 13 )
 	contador = Required(int)
 	tipodoc = Required(str, 2 )
 	uso = Required(str, 2 )
@@ -598,11 +609,26 @@ class Documentos(db.Entity):
 	iddocumento = PrimaryKey(int, auto=True)
 	documento = Required(str, 50 )
 
+class Empleados(db.Entity):
+	idempleado = PrimaryKey(int, auto=True)
+	idempresa = Optional(str, 11 )
+	id_vendedor = Optional(int)
+	idcliente = Optional(str, 20 )
+	idcargo = Optional(int)
+	nombres = Required(str, 100 )
+	direccion = Required(str, 100 )
+	telefono = Required(str, 12 )
+	dni = Required(str, 8 )
+	email = Required(str, 200 )
+	sueldobase = Required(Decimal, 10,2 )
+	fech_ingreso = Required(date)
+	estado = Required(int)
+
 class Empresas(db.Entity):
 	id_empresa = PrimaryKey(str, 6 )
 	nombre = Required(str, 100 )
 	direccion = Required(str, 200 )
-	telefono = Required(str, 20 )
+	telefono = Required(str, 30 )
 	ruc = Required(str, 11 )
 	email = Required(str, 100 )
 	web = Required(str, 100 )
@@ -650,6 +676,8 @@ class Empresas(db.Entity):
 	pagomonedero = Optional(int)
 	porcenmonedero = Optional(int)
 	clavesecreta = Optional(str, 6 )
+	unidadminima = Optional(int)
+	rutalogo = Required(LongStr)
 
 class Escalas(db.Entity):
 	id_empresa = Optional(str, 6 )
@@ -682,6 +710,136 @@ class Existencia(db.Entity):
 class Formapago(db.Entity):
 	idforma = PrimaryKey(int, auto=True)
 	descripcion = Required(str, 50 )
+
+class Guiaremcab(db.Entity):
+	id = PrimaryKey(int, auto=True)
+	id_empresa = Optional(str, 6 )
+	agencia = Optional(str, 3 )
+	tipodoc = Optional(str, 3 )
+	serie = Optional(str, 4 )
+	documento = Optional(str, 8 )
+	codcliente = Optional(str, 20 )
+	nombrecli = Required(str, 100 )
+	dniruc = Required(str, 25 )
+	idmotivotras = Optional(str, 2 )
+	idtipotransporte = Optional(str, 2 )
+	pesototal = Required(Decimal, 20,5 )
+	numerobultos = Required(int)
+	direcdestino = Optional(str, 200 )
+	direcpartida = Optional(str, 200 )
+	ubigeo_origen = Optional(str, 10 )
+	ubigeo_destino = Optional(str, 10 )
+	emision = Required(date)
+	recepcion = Required(date)
+	vence = Required(date)
+	fechacrea = Required(date)
+	idtransportista = Optional(int)
+	idvehiculo = Optional(int)
+	idconductor = Optional(int)
+	contacto = Required(str, 50 )
+	totcosto = Required(Decimal, 20,7 )
+	placaunidad = Required(str, 20 )
+	totcomi = Required(Decimal, 20,7 )
+	totbruto = Required(Decimal, 20,7 )
+	totimpuest = Required(Decimal, 20,7 )
+	totneto = Required(Decimal, 20,7 )
+	totpagos = Required(Decimal, 20,7 )
+	totalfinal = Required(Decimal, 20,7 )
+	totdescuen = Required(Decimal, 20,7 )
+	tipoprecio = Required(int)
+	estatusdoc = Required(str, 1 )
+	ultimopag = Required(date)
+	diascred = Required(int)
+	vendedor = Required(str, 8 )
+	factorcamb = Required(Decimal, 20,7 )
+	multi_div = Required(int)
+	factorreferencial = Required(Decimal, 20,7 )
+	fechanul = Required(date)
+	uanulador = Required(str, 30 )
+	uemisor = Required(str, 30 )
+	estacion = Required(str, 3 )
+	aplicadoa = Required(str, 13 )
+	referencia = Required(str, 20 )
+	refmanual = Required(str, 20 )
+	vuelto = Required(Decimal, 20,7 )
+	uemisorant = Required(str, 30 )
+	caja = Required(str, 10 )
+	usuario = Required(str, 100 )
+	registro = Required(str, 20 )
+	area = Required(str, 50 )
+	tifacturacion = Optional(int)
+	condicion = Optional(int)
+	tipotarjeta = Required(str, 1 )
+	txt = Optional(int)
+	xml = Optional(int)
+	cdr = Optional(int)
+	pdf = Optional(int)
+	ftp = Optional(int)
+	hash = Required(str, 100 )
+	email = Optional(int)
+	receta = Optional(int)
+	paciente = Required(str, 150 )
+	colegiatura = Required(str, 20 )
+	medico = Required(str, 200 )
+	rptasunat = Required(str, 250 )
+	tipodocsunat = Required(str, 2 )
+	idzona = Optional(int)
+	vendedorold = Required(str, 20 )
+	porpagar = Required(Decimal, 20,2 )
+	motivo = Required(str, 100 )
+	impreso = Required(int)
+	generador = Required(int)
+	auditoria = Required(str, 8 )
+	docauditoria = Required(str, 13 )
+	generomovimientoalmacen = Optional(int)
+	imprimiomovimientoalmacen = Optional(int)
+	totaldevolucion = Required(Decimal, 20,2 )
+	montoicbper = Required(Decimal, 20,2 )
+	generado = Optional(int)
+	icbper = Required(Decimal, 20,2 )
+	observacion = Required(LongStr)
+	refserie = Required(str, 4 )
+	refdocumento = Required(str, 8 )
+
+class Guiaremdet(db.Entity):
+	item = PrimaryKey(int, auto=True)
+	id = Optional(int)
+	id_empresa = Optional(str, 6 )
+	agencia = Optional(str, 3 )
+	tipodoc = Optional(str, 3 )
+	serie = Optional(str, 4 )
+	documento = Optional(str, 8 )
+	codigo = Optional(str, 25 )
+	nombre = Required(str, 150 )
+	unidad = Required(str, 4 )
+	cantidad = Optional(Decimal, 20,7 )
+	tipoprecio = Optional(int)
+	costounit = Optional(Decimal, 20,7 )
+	preciounit = Optional(Decimal, 20,7 )
+	igv = Optional(Decimal, 20,7 )
+	precioventa = Optional(Decimal, 20,7 )
+	valorventa = Optional(Decimal, 20,7 )
+	cntdevuelt = Optional(Decimal, 20,7 )
+	unidevuelt = Optional(Decimal, 20,7 )
+	cntentrega = Optional(Decimal, 20,7 )
+	almacen = Optional(str, 3 )
+	proveedor = Required(str, 20 )
+	vendedor = Required(str, 8 )
+	emisor = Required(str, 10 )
+	estacion = Required(str, 3 )
+	placa = Required(str, 20 )
+	surtidor = Required(str, 10 )
+	tipodetalle = Required(int)
+	flete = Required(Decimal, 20,6 )
+	margen = Required(Decimal, 20,6 )
+	contiene = Required(Decimal, 20,2 )
+	listaprecio = Required(str, 8 )
+	lote = Required(str, 1 )
+	receta = Required(str, 1 )
+	descto = Required(Decimal, 20,2 )
+	afectacion = Required(str, 2 )
+	unidad_minima = Required(str, 4 )
+	docauditoria = Required(str, 13 )
 
 class Habitacion(db.Entity):
 	idhabitacion = PrimaryKey(int, auto=True)
@@ -728,6 +886,44 @@ class Iniciodetalle(db.Entity):
 	temperatura = Required(int)
 	estado = Required(str, 1 )
 
+class Inventarioperiodo(db.Entity):
+	periodo = Optional(str, 6 )
+	origen = Required(str, 4 )
+	documento = Required(str, 15 )
+	decripcion = Required(str, 100 )
+	fecha = Required(date)
+	hora = Required(datetime)
+	codigo = Required(str, 20 )
+	ingreso_can = Required(Decimal, 20,2 )
+	egreso_can = Required(Decimal, 20,2 )
+	saldo_can = Required(Decimal, 20,2 )
+	ingreso_cos = Required(Decimal, 20,6 )
+	egreso_cos = Required(Decimal, 20,6 )
+	saldo_cos = Required(Decimal, 20,6 )
+	exist_cant = Required(Decimal, 20,2 )
+	cantidad = Required(Decimal, 20,2 )
+	costo = Required(Decimal, 20,6 )
+	costoprom = Required(Decimal, 20,6 )
+	sumaresta = Required(int)
+	detalle = Required(str, 250 )
+	unidad = Required(str, 5 )
+	item = PrimaryKey(int, auto=True)
+
+class Inventarioresumenperiodo(db.Entity):
+	id = PrimaryKey(int, auto=True)
+	id_empresa = Optional(str, 6 )
+	periodo = Optional(str, 6 )
+	codigo = Required(str, 20 )
+	nombre = Required(str, 250 )
+	idtipoexistencia = Optional(str, 2 )
+	idalmacen = Optional(str, 2 )
+	idunidad = Optional(str, 3 )
+	metodo = Optional(str, 50 )
+	inicial = Optional(Decimal, 20,2 )
+	saldo = Optional(Decimal, 20,2 )
+	costoprom = Required(Decimal, 20,6 )
+	totcosto = Required(Decimal, 20,6 )
+
 class Kardex(db.Entity):
 	id_empresa = Optional(str, 6 )
 	agencia = Optional(str, 3 )
@@ -752,6 +948,7 @@ class Kardex(db.Entity):
 	costo = Optional(Decimal, 20,7 )
 	costoprom = Optional(Decimal, 20,7 )
 	exist_ant = Optional(Decimal, 20,7 )
+	exist_act = Required(Decimal, 20,7 )
 	costoprompbl = Optional(Decimal, 20,7 )
 	costoex_adic = Optional(Decimal, 20,7 )
 	incrcosprom = Optional(Decimal, 20,7 )
@@ -893,6 +1090,26 @@ class Nbf_anulado(db.Entity):
 class Nbf_respuesta(db.Entity):
 	id = PrimaryKey(int, auto=True)
 	item = Required(int)
+	id_empresa = Optional(str, 6 )
+	agencia = Required(str, 3 )
+	tipodoc = Required(str, 3 )
+	serie = Required(str, 4 )
+	numero = Required(str, 8 )
+	enlace = Required(LongStr)
+	enlace_del_pdf = Required(LongStr)
+	enlace_del_xml = Required(LongStr)
+	enlace_del_cdr = Required(LongStr)
+	aceptada_por_sunat = Optional(int)
+	sunat_descripcion = Required(LongStr)
+	sunat_note = Required(LongStr)
+	sunat_responsecode = Required(str, 1 )
+	sunat_soap_error = Required(LongStr)
+	cadena_codigo_qr = Required(LongStr)
+	codigo_hash = Required(LongStr)
+
+class Nbf_respuesta_guia(db.Entity):
+	id = PrimaryKey(int, auto=True)
+	item = Optional(int)
 	id_empresa = Optional(str, 6 )
 	agencia = Required(str, 3 )
 	tipodoc = Required(str, 3 )
@@ -1053,6 +1270,7 @@ class Opermv(db.Entity):
 	numero_lote = Required(str, 20 )
 	auditoria = Required(str, 13 )
 	item = PrimaryKey(int, auto=True)
+	docauditoria = Required(str, 13 )
 
 class Operpag(db.Entity):
 	idempresa = Optional(str, 6 )
@@ -1155,6 +1373,10 @@ class Operti(db.Entity):
 	ccondicion_prof = Required(str, 100 )
 	cnumcuenta_prof = Required(str, 100 )
 	id = PrimaryKey(int, auto=True)
+	totaldevolucion = Optional(Decimal, 20,2 )
+	generoguia = Optional(int)
+	guiaremision = Required(str, 13 )
+	observacion = Required(LongStr)
 
 class Pedidos_cab(db.Entity):
 	id_pedido = PrimaryKey(str, 25 )
@@ -1390,7 +1612,7 @@ class Proveedores(db.Entity):
 	codigo_old = Required(str, 20 )
 
 class Provincia(db.Entity):
-	id = PrimaryKey(str, 2 )
+	id = PrimaryKey(str, 4 )
 	nombre = Optional(str, 100 )
 	region = Optional(str, 2 )
 
@@ -1469,6 +1691,14 @@ class Tabla10(db.Entity):
 	estado = Required(str, 1 )
 	afecta = Required(str, 10 )
 
+class Tabla12(db.Entity):
+	codigo = PrimaryKey(str, 2 )
+	descripcion = Required(str, 255 )
+
+class Tabla20(db.Entity):
+	idmotivo = PrimaryKey(str, 2 )
+	descripcion = Optional(str, 100 )
+
 class Tags(db.Entity):
 	id_empresa = Optional(str, 6 )
 	agencia = Optional(str, 3 )
@@ -1495,8 +1725,8 @@ class Tareas(db.Entity):
 	estado = Optional(int)
 
 class Tempserie(db.Entity):
-	id = PrimaryKey(int, auto=True)
 	id_empresa = Required(str, 6 )
+	id = PrimaryKey(int, auto=True)
 	agencia = Required(str, 3 )
 	inicio = Required(int)
 	fin = Required(int)
@@ -1516,6 +1746,10 @@ class Tipomovalmacen(db.Entity):
 class Tiporeserva(db.Entity):
 	id = PrimaryKey(int, auto=True)
 	nombre = Optional(str, 50 )
+
+class Tipotransporte(db.Entity):
+	idtipo = PrimaryKey(str, 2 )
+	descripcion = Optional(str, 100 )
 
 class Tmpsaldos(db.Entity):
 	id = PrimaryKey(int, auto=True)
@@ -1584,15 +1818,21 @@ class Transporte(db.Entity):
 	observacion = Required(str, 100 )
 	estado = Optional(str, 1 )
 
+class Transportista(db.Entity):
+	idtransportista = PrimaryKey(int, auto=True)
+	idtipodoc = Optional(str, 1 )
+	numerodoc = Optional(str, 20 )
+	nombrerazon = Optional(str, 200 )
+
 class Turnos(db.Entity):
 	id = PrimaryKey(int)
 	nombre = Optional(str, 20 )
 	estado = Optional(int)
 
 class Ubigeo(db.Entity):
-	id = PrimaryKey(str, 6 )
+	ubigeo = PrimaryKey(str, 6 )
 	nombre = Optional(str, 200 )
-	provincia = Optional(str, 2 )
+	provincia = Optional(str, 4 )
 
 class Unidades(db.Entity):
 	id_empresa = Optional(str, 6 )
@@ -1619,6 +1859,12 @@ class Usuarios(db.Entity):
 	email = Required(str, 100 )
 	idvendedor = Required(str, 3 )
 	invenvalorizado = Optional(int)
+	token = Required(str, 40 )
+	formato = Optional(str, 4 )
+
+class Vehiculo(db.Entity):
+	idvehiculo = PrimaryKey(int, auto=True)
+	placa = Optional(str, 10 )
 
 class Vendedor(db.Entity):
 	id_empresa = Optional(str, 6 )

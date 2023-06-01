@@ -12,4 +12,4 @@ tipo_dato = {
     'time': 'time',
 }
 
-tables_views_not_permitted = ('viewdevoluciones','viewventas', 'loteproducto', 'cupon')
+tables_views_not_permitted = ('viewdevoluciones','viewventas','viewexistenciaalmacen', 'loteproducto', 'cupon')

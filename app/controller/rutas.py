@@ -5,8 +5,8 @@ from flask import request
 from flask import jsonify
 import time
 import json
-from app.basedatos import *
-from app.gestor import db
+from app.model.basedatos import *
+from app.model.gestor import db
 class RutaAccesos(Resource):
 	@db_session
 	def get(self):
@@ -167,6 +167,11 @@ class RutaCondicion(Resource):
 	def get(self):
 		condicion = db.get_Condicion()
 		return jsonify(condicion)
+class RutaConductor(Resource):
+	@db_session
+	def get(self):
+		conductor = db.get_Conductor()
+		return jsonify(conductor)
 class RutaConsolidadocab(Resource):
 	@db_session
 	def get(self):
@@ -202,6 +207,11 @@ class RutaDocumentos(Resource):
 	def get(self):
 		documentos = db.get_Documentos()
 		return jsonify(documentos)
+class RutaEmpleados(Resource):
+	@db_session
+	def get(self):
+		empleados = db.get_Empleados()
+		return jsonify(empleados)
 class RutaEmpresas(Resource):
 	@db_session
 	def get(self):
@@ -222,6 +232,16 @@ class RutaFormapago(Resource):
 	def get(self):
 		formapago = db.get_Formapago()
 		return jsonify(formapago)
+class RutaGuiaremcab(Resource):
+	@db_session
+	def get(self):
+		guiaremcab = db.get_Guiaremcab()
+		return jsonify(guiaremcab)
+class RutaGuiaremdet(Resource):
+	@db_session
+	def get(self):
+		guiaremdet = db.get_Guiaremdet()
+		return jsonify(guiaremdet)
 class RutaHabitacion(Resource):
 	@db_session
 	def get(self):
@@ -242,6 +262,16 @@ class RutaIniciodetalle(Resource):
 	def get(self):
 		iniciodetalle = db.get_Iniciodetalle()
 		return jsonify(iniciodetalle)
+class RutaInventarioperiodo(Resource):
+	@db_session
+	def get(self):
+		inventarioperiodo = db.get_Inventarioperiodo()
+		return jsonify(inventarioperiodo)
+class RutaInventarioresumenperiodo(Resource):
+	@db_session
+	def get(self):
+		inventarioresumenperiodo = db.get_Inventarioresumenperiodo()
+		return jsonify(inventarioresumenperiodo)
 class RutaKardex(Resource):
 	@db_session
 	def get(self):
@@ -302,6 +332,11 @@ class RutaNbf_respuesta(Resource):
 	def get(self):
 		nbf_respuesta = db.get_Nbf_respuesta()
 		return jsonify(nbf_respuesta)
+class RutaNbf_respuesta_guia(Resource):
+	@db_session
+	def get(self):
+		nbf_respuesta_guia = db.get_Nbf_respuesta_guia()
+		return jsonify(nbf_respuesta_guia)
 class RutaOpercom(Resource):
 	@db_session
 	def get(self):
@@ -467,6 +502,16 @@ class RutaTabla10(Resource):
 	def get(self):
 		tabla10 = db.get_Tabla10()
 		return jsonify(tabla10)
+class RutaTabla12(Resource):
+	@db_session
+	def get(self):
+		tabla12 = db.get_Tabla12()
+		return jsonify(tabla12)
+class RutaTabla20(Resource):
+	@db_session
+	def get(self):
+		tabla20 = db.get_Tabla20()
+		return jsonify(tabla20)
 class RutaTags(Resource):
 	@db_session
 	def get(self):
@@ -502,6 +547,11 @@ class RutaTiporeserva(Resource):
 	def get(self):
 		tiporeserva = db.get_Tiporeserva()
 		return jsonify(tiporeserva)
+class RutaTipotransporte(Resource):
+	@db_session
+	def get(self):
+		tipotransporte = db.get_Tipotransporte()
+		return jsonify(tipotransporte)
 class RutaTmpsaldos(Resource):
 	@db_session
 	def get(self):
@@ -522,6 +572,11 @@ class RutaTransporte(Resource):
 	def get(self):
 		transporte = db.get_Transporte()
 		return jsonify(transporte)
+class RutaTransportista(Resource):
+	@db_session
+	def get(self):
+		transportista = db.get_Transportista()
+		return jsonify(transportista)
 class RutaTurnos(Resource):
 	@db_session
 	def get(self):
@@ -542,6 +597,11 @@ class RutaUsuarios(Resource):
 	def get(self):
 		usuarios = db.get_Usuarios()
 		return jsonify(usuarios)
+class RutaVehiculo(Resource):
+	@db_session
+	def get(self):
+		vehiculo = db.get_Vehiculo()
+		return jsonify(vehiculo)
 class RutaVendedor(Resource):
 	@db_session
 	def get(self):
