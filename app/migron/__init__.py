@@ -111,16 +111,60 @@ class Migron:
         # crear gestor de tablas
         for a in self.c:
             if a[0] not in tables_views_not_permitted:
+                # get_Table
+                self.gestor.write("\t#Initialize Gestor of {0}\n".format(a[0].capitalize()))
                 self.gestor.write("\t@db_session\n")
                 self.gestor.write("\tdef get_{0}(self):\n".format(a[0].capitalize()))
                 self.gestor.write("\t\t{0} = {1}.select()\n".format(a[0], a[0].capitalize()))
                 self.gestor.write("\t\treturn {'data': JSONAPI.parse("+a[0].capitalize()+", [item.to_dict() for item in "+a[0]+"])}" + os.linesep)
+                # get_One
                 self.gestor.write("\t@db_session\n")
                 self.gestor.write("\tdef get_{0}_one(self, _id):\n".format(a[0].capitalize()))
                 self.gestor.write("\t\t{0} = {1}[_id]\n".format(a[0], a[0].capitalize()))
                 self.gestor.write("\t\tif {0}:\n".format(a[0]))
                 self.gestor.write("\t\t\treturn {'data': " + a[0] + ".to_dict()}\n")
                 self.gestor.write("\t\treturn {'data': 'sin data que mostrar'}" + os.linesep)
+                # New_Register
+                self.gestor.write("\t@db_session\n")
+                self.gestor.write("\tdef new_{0}(self, data):\n".format(a[0].capitalize()))
+                self.gestor.write("\t\tif request.method == 'POST':\n")
+                self.gestor.write("\t\t\ttry:\n")
+                self.gestor.write("\t\t\t\t{0}(**data)\n".format(a[0].capitalize()))
+                self.gestor.write("\t\t\t\tcommit()\n")
+                self.gestor.write("\t\t\t\treturn True, 'Succesful creadet row!'\n")
+                self.gestor.write("\t\t\texcept Exception as e:\n")
+                self.gestor.write("\t\t\t\treturn False, '{0}'.format(e)\n")
+                self.gestor.write("\t\treturn jsonify({'message': 'The method is not allowed for the requested URL'})"+ os.linesep)
+                # Edit_Register
+                d = db.cursor()
+                d.execute("describe {0};".format(a[0]))
+                d.fetchall()
+                # New_Register
+                self.gestor.write("\t@db_session\n")
+                self.gestor.write("\tdef edit_{0}(self, data):\n".format(a[0].capitalize()))
+                self.gestor.write("\t\tif request.method == 'POST':\n")
+                self.gestor.write("\t\t\ttry:\n")
+                for reg in d:
+                    if reg[3] == 'PRI':
+                        self.gestor.write("\t\t\t\t{0} = {1}[data['{2}']]\n".format(a[0], a[0].capitalize(), reg[0]))
+                    else:
+                        self.gestor.write("\t\t\t\t{0}.{1} = data['{2}']\n".format(a[0], reg[0], reg[0]))
+                self.gestor.write("\t\t\t\tcommit()\n")
+                self.gestor.write("\t\t\t\treturn True, 'Succesful update register!'\n")
+                self.gestor.write("\t\t\texcept Exception as e:\n")
+                self.gestor.write("\t\t\t\treturn False, '{0}'.format(e)"+ os.linesep)
+                # Delete_Register
+                self.gestor.write("\t@db_session\n")
+                self.gestor.write("\tdef delete_{0}(self, data):\n".format(a[0].capitalize()))
+                self.gestor.write("\t\tif request.method == 'POST':\n")
+                self.gestor.write("\t\t\ttry:\n")
+                for reg in d:
+                     if reg[3] == 'PRI':
+                        self.gestor.write("\t\t\t\t{0}[data].delete()\n".format(a[0].capitalize()))
+                self.gestor.write("\t\t\t\treturn True, 'Succesful delete register!'\n")
+                self.gestor.write("\t\t\texcept Exception as e:\n")
+                self.gestor.write("\t\t\t\treturn False, '{0}'.format(e)\n")
+                self.gestor.write("\t#End Gestor of {0}".format(a[0].capitalize())+os.linesep)
         #
         self.gestor.write("db = DBAdmin()\n")
         self.gestor.close()
